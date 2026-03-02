@@ -1,101 +1,1126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Portfolio</title>
-    <style>
-        /* Preloader Animation */
-        .preloader {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raximqul Safaraliyevich — Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            accent: '#6366f1',
+            accentLight: '#818cf8',
+          }
         }
-        .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    /* ── Global ── */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: #1a1a2e; overflow-x: hidden; }
+
+    /* ── Preloader ── */
+    #preloader {
+      position: fixed; inset: 0; background: #000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity 0.6s ease;
+    }
+    #preloader.fade-out { opacity: 0; pointer-events: none; }
+
+    .preloader-stage { display: none; flex-direction: column; align-items: center; gap: 1rem; }
+    .preloader-stage.active { display: flex; }
+
+    #stage-1 .pre-title {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900; letter-spacing: 0.3em;
+      color: #00e5ff;
+      animation: glowPulse 1.5s ease-in-out infinite alternate;
+    }
+    #stage-2 .pre-icon {
+      font-size: clamp(3rem, 8vw, 5rem); color: #00e5ff;
+      animation: iconBounce 0.6s ease-out;
+    }
+    #stage-2 .pre-sub {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: #a0aec0;
+      letter-spacing: 0.05em;
+    }
+    #stage-2 .pre-designer {
+      font-size: clamp(0.75rem, 2vw, 0.9rem); color: #718096;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff; }
+      to   { text-shadow: 0 0 20px #00e5ff, 0 0 50px #00e5ff, 0 0 80px #00b8d9; }
+    }
+    @keyframes iconBounce {
+      0%   { transform: scale(0.3); opacity: 0; }
+      70%  { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── Navbar ── */
+    #navbar {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      z-index: 1000; transition: top 0.3s;
+    }
+    .nav-pill {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 9999px;
+      padding: 0.5rem 1.5rem;
+      display: flex; align-items: center; gap: 0.25rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .nav-link {
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500;
+      color: #4a5568;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-link:hover  { background: #f3f4f6; color: #1a1a2e; }
+    .nav-link.active { background: #1a1a2e; color: #fff; }
+
+    /* ── Typing cursor ── */
+    .typing-cursor {
+      display: inline-block; width: 2px; height: 1.2em;
+      background: #6366f1; margin-left: 2px;
+      animation: blink 0.8s step-end infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── Pulsing dot ── */
+    .pulse-dot {
+      display: inline-block; width: 8px; height: 8px;
+      background: #22c55e; border-radius: 50%;
+      animation: pulseDot 1.5s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    /* ── Illustration SVG area ── */
+    .hero-illustration {
+      background: linear-gradient(135deg, #eef2ff 0%, #f0f9ff 100%);
+      border-radius: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; min-height: 320px;
+    }
+
+    /* ── About card ── */
+    .info-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      display: flex; align-items: flex-start; gap: 0.875rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .info-card:hover { box-shadow: 0 8px 24px rgba(99,102,241,0.1); transform: translateY(-2px); }
+
+    /* ── Contact form ── */
+    .form-input {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid #e2e8f0; border-radius: 0.75rem;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      background: #f8fafc; color: #1a1a2e;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.12); background: #fff; }
+
+    /* ── Section fade-in ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Developer illustration SVG ── */
+    .dev-svg text { font-family: 'Inter', monospace; }
+  </style>
 </head>
-<body class="bg-gray-100">
-    <div class="preloader" id="preloader">
-        <div class="loader"></div>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PRELOADER
+════════════════════════════════════════════ -->
+<div id="preloader">
+  <!-- Stage 1: MY PROFILE text -->
+  <div id="stage-1" class="preloader-stage active">
+    <div class="pre-title">MY PROFILE</div>
+  </div>
+  <!-- Stage 2: icon + name -->
+  <div id="stage-2" class="preloader-stage">
+    <div class="pre-icon">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="pre-sub text-center">
+      <span style="color:#00e5ff; font-weight:700; font-size:1.1em;">Raximov Raximqul</span>
+    </div>
+    <div class="pre-designer">Designed by Raximov Raximqul</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="nav-pill">
+    <!-- Future items (Projects, Services) can be added between these links -->
+    <a href="#hero"         class="nav-link active" data-section="hero">Home</a>
+    <a href="#about"        class="nav-link"        data-section="about">About</a>
+    <a href="#certificates" class="nav-link"        data-section="certificates">Certificates</a>
+    <!-- <a href="#projects" class="nav-link" data-section="projects">Projects</a> -->
+    <!-- <a href="#services" class="nav-link" data-section="services">Services</a> -->
+    <a href="#contact"      class="nav-link"        data-section="contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════════ -->
+<section id="hero" class="min-h-screen flex items-center pt-24 pb-16 px-4">
+  <div class="max-w-6xl mx-auto w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Left column -->
+      <div class="reveal flex flex-col gap-6">
+
+        <!-- Available badge -->
+        <div class="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-4 py-2 rounded-full w-fit">
+          <span class="pulse-dot"></span>
+          Available for work
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900">
+          Hi, I'm<br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
+            Raximqul
+          </span><br />
+          <span class="text-gray-700 text-3xl sm:text-4xl lg:text-5xl">Safaraliyevich</span>
+        </h1>
+
+        <!-- Typing effect -->
+        <div class="text-lg sm:text-xl font-semibold text-indigo-600 min-h-[2rem] flex items-center gap-1">
+          <span id="typing-text"></span><span class="typing-cursor"></span>
+        </div>
+
+        <!-- Location & status -->
+        <div class="flex flex-wrap gap-3 text-sm text-gray-500">
+          <span class="flex items-center gap-1 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
+            📍 Based in Tashkent, Uzbekistan
+          </span>
+          <span class="flex items-center gap-1 bg-yellow-50 border border-yellow-200 text-yellow-700 px-3 py-1.5 rounded-full">
+            ⚡ Available Now
+          </span>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap gap-3 mt-2">
+          <a href="#contact"
+             class="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+            Hire Me <i class="fas fa-arrow-right text-sm"></i>
+          </a>
+          <a href="#" download
+             class="inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 font-semibold px-6 py-3 rounded-full hover:bg-gray-900 hover:text-white transition-all duration-200 hover:-translate-y-0.5">
+            <i class="fas fa-download text-sm"></i> Download CV
+          </a>
+        </div>
+
+        <!-- Social links -->
+        <div class="flex flex-wrap items-center gap-3 mt-1">
+          <span class="text-sm text-gray-500 font-medium">Follow me:</span>
+          <a href="https://t.me/rahimqul1" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-sky-500 text-white flex items-center justify-center hover:bg-sky-400 transition-all duration-200 hover:scale-110"
+             aria-label="Telegram">
+            <i class="fab fa-telegram-plane text-sm"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/raximqul-raximov-2a025b34a" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110"
+             aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in text-sm"></i>
+          </a>
+          <a href="https://wa.me/998883253538" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-400 transition-all duration-200 hover:scale-110"
+             aria-label="WhatsApp">
+            <i class="fab fa-whatsapp text-sm"></i>
+          </a>
+          <a href="https://discord.com/users/rahimqul" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-500 transition-all duration-200 hover:scale-110"
+             aria-label="Discord">
+            <i class="fab fa-discord text-sm"></i>
+          </a>
+          <a href="https://www.twitch.tv/rahimqul" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-500 transition-all duration-200 hover:scale-110"
+             aria-label="Twitch">
+            <i class="fab fa-twitch text-sm"></i>
+          </a>
+          <a href="https://s.team/p/hwwm-tpmk/WGKHNCDG" target="_blank" rel="noopener noreferrer"
+             class="w-9 h-9 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-gray-600 transition-all duration-200 hover:scale-110"
+             aria-label="Steam">
+            <i class="fab fa-steam text-sm"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right column: illustration -->
+      <div class="reveal hero-illustration" style="transition-delay:0.15s">
+        <svg class="dev-svg w-full max-w-sm" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Developer illustration">
+          <!-- Monitor -->
+          <rect x="80" y="40" width="240" height="160" rx="12" fill="#1e293b"/>
+          <rect x="92" y="52" width="216" height="130" rx="6" fill="#0f172a"/>
+          <!-- Screen content (code lines) -->
+          <rect x="104" y="66" width="80" height="6" rx="3" fill="#6366f1" opacity="0.8"/>
+          <rect x="104" y="80" width="60" height="5" rx="2.5" fill="#22d3ee" opacity="0.7"/>
+          <rect x="112" y="93" width="100" height="5" rx="2.5" fill="#f472b6" opacity="0.6"/>
+          <rect x="112" y="106" width="70" height="5" rx="2.5" fill="#a3e635" opacity="0.6"/>
+          <rect x="104" y="119" width="90" height="5" rx="2.5" fill="#6366f1" opacity="0.5"/>
+          <rect x="112" y="132" width="50" height="5" rx="2.5" fill="#fb923c" opacity="0.6"/>
+          <rect x="112" y="145" width="120" height="5" rx="2.5" fill="#22d3ee" opacity="0.4"/>
+          <rect x="104" y="158" width="40" height="5" rx="2.5" fill="#6366f1" opacity="0.7"/>
+          <!-- Cursor blink line -->
+          <rect x="148" y="158" width="2" height="10" rx="1" fill="#fff" opacity="0.9">
+            <animate attributeName="opacity" values="0.9;0;0.9" dur="1s" repeatCount="indefinite"/>
+          </rect>
+          <!-- Monitor stand -->
+          <rect x="185" y="200" width="30" height="20" rx="2" fill="#334155"/>
+          <rect x="160" y="218" width="80" height="8" rx="4" fill="#334155"/>
+          <!-- Keyboard -->
+          <rect x="120" y="240" width="160" height="30" rx="6" fill="#e2e8f0"/>
+          <rect x="128" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="140" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="152" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="164" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="176" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="188" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="200" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="212" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="224" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="236" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="248" y="246" width="8" height="6" rx="2" fill="#94a3b8"/>
+          <rect x="144" y="256" width="112" height="6" rx="3" fill="#94a3b8"/>
+          <!-- Decorative floating elements -->
+          <circle cx="60" cy="80" r="12" fill="#eef2ff" stroke="#6366f1" stroke-width="2" opacity="0.7">
+            <animate attributeName="cy" values="80;70;80" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <text x="54" y="85" fill="#6366f1" font-size="10" font-weight="bold">&lt;/&gt;</text>
+          <circle cx="340" cy="130" r="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" opacity="0.7">
+            <animate attributeName="cy" values="130;120;130" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <text x="334" y="135" fill="#f59e0b" font-size="9" font-weight="bold">{ }</text>
+          <circle cx="330" cy="60" r="8" fill="#ecfdf5" stroke="#22c55e" stroke-width="2" opacity="0.6">
+            <animate attributeName="cy" values="60;52;60" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <text x="325" y="65" fill="#22c55e" font-size="8">✓</text>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT SECTION
+════════════════════════════════════════════ -->
+<section id="about" class="py-20 px-4 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <!-- Left column -->
+      <div class="reveal flex flex-col gap-8">
+
+        <!-- Section label -->
+        <div>
+          <span class="text-xs font-bold tracking-widest text-indigo-500 uppercase">Get to know me</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">About Me</h2>
+          <div class="w-12 h-1 bg-indigo-500 rounded-full mt-3"></div>
+        </div>
+
+        <!-- Bio -->
+        <p class="text-gray-600 leading-relaxed text-base">
+          I am an IT specialist with a strong focus on <strong class="text-gray-800">server administration</strong>,
+          <strong class="text-gray-800">network engineering</strong> (TCP/IP &amp; OSI Model), and
+          <strong class="text-gray-800">technical support</strong>. I enjoy building reliable, efficient
+          infrastructure and solving complex system-level challenges. With a solid background in both
+          hardware and software environments, I strive to deliver stable and secure solutions that
+          meet modern business demands.
+        </p>
+
+        <!-- Info cards -->
+        <div class="flex flex-col gap-4">
+
+          <!-- Skills card -->
+          <div class="info-card">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-code text-indigo-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm mb-1.5">Skills</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-1 rounded-full font-medium">PostgreSQL</span>
+                <span class="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-1 rounded-full font-medium">Python</span>
+                <span class="text-xs bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded-full font-medium">IT Support</span>
+                <span class="text-xs bg-purple-50 text-purple-700 border border-purple-200 px-2.5 py-1 rounded-full font-medium">Data Analysis</span>
+                <span class="text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2.5 py-1 rounded-full font-medium">Networking</span>
+                <span class="text-xs bg-rose-50 text-rose-700 border border-rose-200 px-2.5 py-1 rounded-full font-medium">Linux / Server</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education card -->
+          <div class="info-card">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-graduation-cap text-blue-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm mb-1">Education</h3>
+              <p class="text-sm text-gray-700 font-medium">Bachelor's Degree</p>
+              <p class="text-xs text-gray-500 mt-0.5">Cyber Sports &amp; Radioelectronic Devices (Networks)</p>
+              <p class="text-xs text-indigo-600 font-medium mt-1">Jizzax Politexnika Instituti</p>
+            </div>
+          </div>
+
+          <!-- Certifications card -->
+          <div class="info-card">
+            <div class="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <i class="fas fa-certificate text-yellow-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm mb-1.5">Certifications</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 px-2.5 py-1 rounded-full font-medium">
+                  <i class="fab fa-google mr-1"></i>Google IT Support
+                </span>
+                <span class="text-xs bg-sky-50 text-sky-700 border border-sky-200 px-2.5 py-1 rounded-full font-medium">
+                  CCNA Foundations
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Languages subsection -->
+        <div>
+          <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <i class="fas fa-language text-indigo-500"></i> Languages
+          </h3>
+          <div class="flex flex-col gap-3">
+
+            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-200 transition-colors">
+              <span class="text-2xl leading-none" role="img" aria-label="Uzbekistan flag">🇺🇿</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-sm font-semibold text-gray-800">O'zbek tili</span>
+                  <span class="text-xs text-white bg-green-500 px-2 py-0.5 rounded-full font-medium">Native · C2</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-1.5">
+                  <div class="bg-green-500 h-1.5 rounded-full" style="width:100%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-200 transition-colors">
+              <span class="text-2xl leading-none" role="img" aria-label="Tajikistan flag">🇹🇯</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-sm font-semibold text-gray-800">Tojik tili</span>
+                  <span class="text-xs text-white bg-green-500 px-2 py-0.5 rounded-full font-medium">Native · C2</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-1.5">
+                  <div class="bg-green-500 h-1.5 rounded-full" style="width:100%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-200 transition-colors">
+              <span class="text-2xl leading-none" role="img" aria-label="Russia flag">🇷🇺</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-sm font-semibold text-gray-800">Rus tili</span>
+                  <span class="text-xs text-white bg-blue-500 px-2 py-0.5 rounded-full font-medium">Professional · B2</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-1.5">
+                  <div class="bg-blue-500 h-1.5 rounded-full" style="width:72%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl hover:border-indigo-200 transition-colors">
+              <span class="text-2xl leading-none" role="img" aria-label="UK flag">🇬🇧</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-sm font-semibold text-gray-800">Ingliz tili</span>
+                  <span class="text-xs text-white bg-orange-400 px-2 py-0.5 rounded-full font-medium">Elementary · A2</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-1.5">
+                  <div class="bg-orange-400 h-1.5 rounded-full" style="width:28%"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right column: avatar illustration -->
+      <div class="reveal flex items-center justify-center" style="transition-delay:0.15s">
+        <div class="relative">
+          <!-- Background blob -->
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl transform rotate-3 scale-105"></div>
+          <!-- Avatar SVG -->
+          <div class="relative bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-8 shadow-inner">
+            <svg viewBox="0 0 280 320" class="w-64 h-auto" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Professional avatar">
+              <!-- Body / suit -->
+              <ellipse cx="140" cy="290" rx="90" ry="50" fill="#e8eaf6"/>
+              <path d="M80 230 Q140 260 200 230 L210 310 Q140 330 70 310 Z" fill="#3730a3"/>
+              <!-- Tie -->
+              <path d="M135 215 L140 240 L145 215 Z" fill="#6366f1"/>
+              <path d="M133 240 L140 270 L147 240 Z" fill="#6366f1"/>
+              <!-- Collar -->
+              <path d="M118 215 L140 235 L162 215 L152 205 L140 220 L128 205 Z" fill="#fff"/>
+              <!-- Neck -->
+              <rect x="128" y="185" width="24" height="30" rx="5" fill="#fbbf91"/>
+              <!-- Head -->
+              <ellipse cx="140" cy="155" rx="55" ry="60" fill="#fbbf91"/>
+              <!-- Hair -->
+              <path d="M85 140 Q90 80 140 75 Q190 80 195 140 Q185 110 140 108 Q95 110 85 140 Z" fill="#1e293b"/>
+              <!-- Ears -->
+              <ellipse cx="85" cy="155" rx="10" ry="13" fill="#fbbf91"/>
+              <ellipse cx="195" cy="155" rx="10" ry="13" fill="#fbbf91"/>
+              <!-- Eyes -->
+              <ellipse cx="120" cy="150" rx="8" ry="9" fill="#fff"/>
+              <ellipse cx="160" cy="150" rx="8" ry="9" fill="#fff"/>
+              <circle cx="122" cy="151" r="5" fill="#1e293b"/>
+              <circle cx="162" cy="151" r="5" fill="#1e293b"/>
+              <circle cx="124" cy="149" r="1.5" fill="#fff"/>
+              <circle cx="164" cy="149" r="1.5" fill="#fff"/>
+              <!-- Eyebrows -->
+              <path d="M112 138 Q120 133 128 138" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M152 138 Q160 133 168 138" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Nose -->
+              <path d="M137 160 Q140 170 143 160" stroke="#e8956d" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <!-- Smile -->
+              <path d="M125 175 Q140 188 155 175" stroke="#e8956d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Decorative badge -->
+              <rect x="185" y="240" width="60" height="28" rx="8" fill="#6366f1"/>
+              <text x="191" y="259" fill="#fff" font-size="9" font-weight="700">DevOps</text>
+            </svg>
+          </div>
+          <!-- Floating stats chips -->
+          <div class="absolute -top-4 -right-4 bg-white border border-gray-100 shadow-lg rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xs"><i class="fas fa-check"></i></span>
+            <div class="leading-tight">
+              <div class="text-xs font-bold text-gray-900">2+ Years</div>
+              <div class="text-xs text-gray-500">Experience</div>
+            </div>
+          </div>
+          <div class="absolute -bottom-4 -left-4 bg-white border border-gray-100 shadow-lg rounded-2xl px-3 py-2 flex items-center gap-2">
+            <span class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 text-xs"><i class="fas fa-network-wired"></i></span>
+            <div class="leading-tight">
+              <div class="text-xs font-bold text-gray-900">Network</div>
+              <div class="text-xs text-gray-500">Engineer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CERTIFICATES SECTION
+════════════════════════════════════════════ -->
+<section id="certificates" class="py-20 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Heading -->
+    <div class="reveal text-center mb-12">
+      <span class="text-xs font-bold tracking-widest text-indigo-500 uppercase">Verified Learning</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">Certificates</h2>
+      <div class="w-12 h-1 bg-indigo-500 rounded-full mt-3 mx-auto"></div>
+      <p class="text-gray-500 mt-4 max-w-lg mx-auto text-sm">
+        Professional certifications earned via Coursera from IBM, UC Irvine, Institut Mines-Télécom, and KodeKloud.
+      </p>
     </div>
 
-    <header class="bg-indigo-600 text-white p-4">
-        <h1 class="text-3xl font-bold text-center">My Portfolio</h1>
-    </header>
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal">
 
-    <section id="hero" class="bg-gray-200 p-10 text-center">
-        <h2 class="text-4xl font-bold mb-4 typing-effect">Welcome to My Portfolio</h2>
-        <p class="mb-8">I am a passionate web developer.</p>
-        <a href="#contact" class="bg-indigo-600 text-white py-2 px-4 rounded">Contact Me</a>
-    </section>
+      <!-- Card 1 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-chart-bar text-blue-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full mb-1">IBM</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Data Visualization and Dashboards with Excel and Cognos</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>March 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/1PBYR4FB0SNO" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-    <section id="about" class="p-10">
-        <h2 class="text-3xl font-bold mb-4">About Me</h2>
-        <p class="mb-8">I have experience in full stack development and design.</p>
-    </section>
+      <!-- Card 2 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-database text-blue-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full mb-1">IBM</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Introduction to Data Analytics</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>March 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/6FK3WN8P9JMO" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-    <section id="contact" class="p-10 bg-gray-200">
-        <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
-        <form action="https://formspree.io/f/your-form-id" method="POST">
-            <input type="text" name="name" placeholder="Your Name" class="border p-2 mb-4 w-full" required>
-            <input type="email" name="email" placeholder="Your Email" class="border p-2 mb-4 w-full" required>
-            <textarea name="message" placeholder="Your Message" class="border p-2 mb-4 w-full" required></textarea>
-            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded">Send Message</button>
-        </form>
-    </section>
+      <!-- Card 3 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-file-excel text-blue-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full mb-1">IBM</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Excel Basics for Data Analysis</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>March 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/CNVXHUX5H63M" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-    <footer class="bg-gray-800 text-white p-4 text-center">
-        <p>&copy; 2026 My Portfolio</p>
-    </footer>
+      <!-- Card 4 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-tasks text-blue-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full mb-1">IBM</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Assessment for Data Analysis and Visualization Foundations</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>March 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/OQ9UG6ZGK233" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-    <script>
-        // Preloader Animation
-        window.onload = function() {
-            document.getElementById('preloader').style.display = 'none';
-        };
+      <!-- Card 5 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-language text-orange-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full mb-1">UC Irvine</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Learn English: Beginning Grammar Specialization</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>February 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/specialization/LADRPV7D2XGV" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-        // Typing Effect
-        const typedText = "I'm a Developer!";
-        let index = 0;
-        const typingEffect = () => {
-            if (index < typedText.length) {
-                document.querySelector('.typing-effect').textContent += typedText.charAt(index);
-                index++;
-                setTimeout(typingEffect, 100);
-            }
-        };
-        typingEffect();
+      <!-- Card 6 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-book-open text-orange-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full mb-1">UC Irvine</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Simple Past Tense</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>February 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/7C047VV7AVFR" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
 
-        // Scroll Reveal Animations
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach((element) => {
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 50) {
-                    element.classList.add('animate__animated', 'animate__fadeIn');
-                }
-            });
-        };
-        window.addEventListener('scroll', revealOnScroll);
-    </script>
+      <!-- Card 7 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-spell-check text-orange-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full mb-1">UC Irvine</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Word Forms and Simple Present Tense</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>February 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/YI7X8INRF9NQ" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-signal text-purple-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full mb-1">Institut Mines-Télécom</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">4G Network Fundamentals</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>March 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/U5UY8CQHZG2Y" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="group flex flex-col bg-gray-50 border border-gray-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
+            <i class="fab fa-python text-green-600 text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="inline-block text-xs font-bold bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full mb-1">KodeKloud</span>
+            <h3 class="text-sm font-bold text-gray-900 leading-snug">Python for the Absolute Beginner</h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto mb-4">
+          <i class="fas fa-calendar-alt"></i>
+          <span>February 2025</span>
+        </div>
+        <a href="https://coursera.org/verify/DXOYCL7QFCXJ" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-indigo-600 border border-indigo-200 bg-indigo-50 hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-xl transition-all duration-200">
+          <i class="fas fa-certificate"></i> Verify Certificate
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONTACT SECTION
+════════════════════════════════════════════ -->
+<section id="contact" class="py-20 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Heading -->
+    <div class="reveal text-center mb-12">
+      <span class="text-xs font-bold tracking-widest text-indigo-500 uppercase">Let's Talk</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mt-1">Get in Touch</h2>
+      <div class="w-12 h-1 bg-indigo-500 rounded-full mt-3 mx-auto"></div>
+      <p class="text-gray-500 mt-4 max-w-lg mx-auto text-sm">
+        Have a project in mind or want to discuss an opportunity? I'd love to hear from you.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+
+      <!-- Left: contact details -->
+      <div class="reveal flex flex-col gap-3">
+
+        <!-- Email -->
+        <a href="mailto:rahimqul05@gmail.com"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-indigo-200 hover:bg-indigo-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0 group-hover:bg-indigo-200 transition-colors text-sm">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">Email</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-indigo-600 transition-colors">rahimqul05@gmail.com</div>
+          </div>
+        </a>
+
+        <!-- Phone -->
+        <a href="tel:+998883253538"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-green-200 hover:bg-green-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 group-hover:bg-green-200 transition-colors text-sm">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">Phone</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-green-600 transition-colors">+998 (88) 325-35-38</div>
+          </div>
+        </a>
+
+        <!-- Telegram -->
+        <a href="https://t.me/rahimqul1" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-sky-200 hover:bg-sky-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 flex-shrink-0 group-hover:bg-sky-200 transition-colors text-sm">
+            <i class="fab fa-telegram-plane"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">Telegram</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-sky-600 transition-colors">@rahimqul1</div>
+          </div>
+        </a>
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/998883253538" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-green-300 hover:bg-green-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 group-hover:bg-green-200 transition-colors text-sm">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">WhatsApp</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-green-600 transition-colors">+998 (88) 325-35-38</div>
+          </div>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/raximqul-raximov-2a025b34a" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700 flex-shrink-0 group-hover:bg-blue-200 transition-colors text-sm">
+            <i class="fab fa-linkedin-in"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">LinkedIn</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-blue-700 transition-colors">raximqul-raximov</div>
+          </div>
+        </a>
+
+        <!-- Discord -->
+        <a href="https://discord.com/users/rahimqul" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0 group-hover:bg-indigo-200 transition-colors text-sm">
+            <i class="fab fa-discord"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">Discord</div>
+            <div class="text-gray-800 font-semibold text-sm group-hover:text-indigo-600 transition-colors">rahimqul</div>
+          </div>
+        </a>
+
+        <!-- IMO -->
+        <div class="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0 text-sm">
+            <i class="fas fa-comment-dots"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">IMO</div>
+            <div class="text-gray-800 font-semibold text-sm">+998 (88) 325-35-38</div>
+          </div>
+        </div>
+
+        <!-- Quick response note -->
+        <div class="flex items-center gap-3 p-4 bg-indigo-50 border border-indigo-100 rounded-xl">
+          <i class="fas fa-clock text-indigo-400 text-sm"></i>
+          <p class="text-indigo-700 text-xs font-medium">Usually responds within a few hours.</p>
+        </div>
+
+      </div>
+
+      <!-- Right: contact form -->
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-8">
+          <h3 class="text-lg font-bold text-gray-900 mb-6">Send a Message</h3>
+          <!--
+            Replace YOUR_FORM_ID with your actual Formspree form ID.
+            Sign up at https://formspree.io and create a new form to get your ID.
+          -->
+          <form
+            action="https://formspree.io/f/mbdavjje"
+            method="POST"
+            class="flex flex-col gap-4"
+            id="contact-form"
+          >
+            <div>
+              <label for="name" class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Your Name</label>
+              <input
+                type="text" id="name" name="name"
+                placeholder="Raximqul Safaraliyevich"
+                class="form-input" required
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Your Email</label>
+              <input
+                type="email" id="email" name="email"
+                placeholder="you@example.com"
+                class="form-input" required
+              />
+            </div>
+            <div>
+              <label for="message" class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Your Message</label>
+              <textarea
+                id="message" name="message" rows="5"
+                placeholder="Tell me about your project or opportunity..."
+                class="form-input resize-none" required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-indigo-500 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-indigo-200 mt-1"
+              id="submit-btn"
+            >
+              <i class="fas fa-paper-plane text-sm"></i> Send Message
+            </button>
+            <p id="form-status" class="text-sm text-center mt-1 hidden"></p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="bg-gray-950 text-gray-400 py-10 px-4">
+  <div class="max-w-6xl mx-auto flex flex-col items-center gap-6">
+
+    <!-- Brand -->
+    <div class="text-white font-extrabold text-xl tracking-tight">
+      <span class="text-indigo-400">&lt;</span>Raximqul<span class="text-indigo-400">/&gt;</span>
+    </div>
+
+    <!-- Footer nav -->
+    <nav class="flex flex-wrap justify-center gap-2" aria-label="Footer navigation">
+      <a href="#hero"         class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">Home</a>
+      <a href="#about"        class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">About</a>
+      <a href="#certificates" class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">Certificates</a>
+      <!-- <a href="#projects" class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">Projects</a> -->
+      <!-- <a href="#services" class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">Services</a> -->
+      <a href="#contact"      class="text-sm px-4 py-1.5 rounded-full hover:bg-gray-800 hover:text-white transition-colors">Contact</a>
+    </nav>
+
+    <!-- Social -->
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a href="https://t.me/rahimqul1" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-200"
+         aria-label="Telegram"><i class="fab fa-telegram-plane text-sm"></i></a>
+      <a href="https://wa.me/998883253538" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all duration-200"
+         aria-label="WhatsApp"><i class="fab fa-whatsapp text-sm"></i></a>
+      <a href="https://www.linkedin.com/in/raximqul-raximov-2a025b34a" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-blue-700 hover:text-white transition-all duration-200"
+         aria-label="LinkedIn"><i class="fab fa-linkedin-in text-sm"></i></a>
+      <a href="https://discord.com/users/rahimqul" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all duration-200"
+         aria-label="Discord"><i class="fab fa-discord text-sm"></i></a>
+      <a href="https://www.twitch.tv/rahimqul" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-purple-600 hover:text-white transition-all duration-200"
+         aria-label="Twitch"><i class="fab fa-twitch text-sm"></i></a>
+      <a href="https://s.team/p/hwwm-tpmk/WGKHNCDG" target="_blank" rel="noopener noreferrer"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-gray-600 hover:text-white transition-all duration-200"
+         aria-label="Steam"><i class="fab fa-steam text-sm"></i></a>
+      <a href="mailto:rahimqul05@gmail.com"
+         class="w-9 h-9 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all duration-200"
+         aria-label="Email"><i class="fas fa-envelope text-sm"></i></a>
+    </div>
+
+    <div class="w-full h-px bg-gray-800"></div>
+
+    <!-- Copyright -->
+    <p class="text-xs text-gray-600 text-center">
+      &copy; 2026 Raximov Raximqul. All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+// ── Preloader ──────────────────────────────────────────────────────────────
+(function () {
+  const preloader = document.getElementById('preloader');
+  const stage1    = document.getElementById('stage-1');
+  const stage2    = document.getElementById('stage-2');
+
+  // Stage 1 → Stage 2 after 1.4s
+  setTimeout(() => {
+    stage1.classList.remove('active');
+    stage2.classList.add('active');
+  }, 1400);
+
+  // Fade out preloader after 2.8s
+  setTimeout(() => {
+    preloader.classList.add('fade-out');
+    setTimeout(() => { preloader.style.display = 'none'; }, 700);
+  }, 2800);
+})();
+
+// ── Typing Effect ──────────────────────────────────────────────────────────
+(function () {
+  const phrases = ['DevOps Engineer', 'Network Engineer', 'System Administrator'];
+  const el      = document.getElementById('typing-text');
+  let   pIdx    = 0, cIdx = 0, deleting = false;
+
+  function tick() {
+    const phrase = phrases[pIdx];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++cIdx);
+      if (cIdx === phrase.length) {
+        deleting = true;
+        setTimeout(tick, 1800); // pause before deleting
+        return;
+      }
+    } else {
+      el.textContent = phrase.slice(0, --cIdx);
+      if (cIdx === 0) {
+        deleting = false;
+        pIdx = (pIdx + 1) % phrases.length;
+      }
+    }
+    setTimeout(tick, deleting ? 55 : 90);
+  }
+
+  // Start after preloader fades
+  setTimeout(tick, 3000);
+})();
+
+// ── Scroll Reveal ──────────────────────────────────────────────────────────
+(function () {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+// ── Active Nav Highlight on Scroll ────────────────────────────────────────
+(function () {
+  const sections = ['hero', 'about', 'certificates', 'contact'];
+  const links    = document.querySelectorAll('.nav-link');
+
+  function setActive(id) {
+    links.forEach(l => {
+      l.classList.toggle('active', l.dataset.section === id);
+    });
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) setActive(e.target.id);
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // Click nav links
+  links.forEach(l => {
+    l.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = l.dataset.section;
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      setActive(id);
+    });
+  });
+})();
+
+// ── Contact Form (Formspree) ───────────────────────────────────────────────
+(function () {
+  const form   = document.getElementById('contact-form');
+  const btn    = document.getElementById('submit-btn');
+  const status = document.getElementById('form-status');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled  = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin text-sm"></i> Sending…';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.reset();
+        status.textContent  = '✅ Message sent! I\'ll get back to you soon.';
+        status.className    = 'text-sm text-center mt-1 text-green-600 font-medium';
+        status.classList.remove('hidden');
+        btn.innerHTML       = '<i class="fas fa-check text-sm"></i> Sent!';
+        btn.classList.replace('bg-indigo-600', 'bg-green-600');
+      } else {
+        throw new Error('form error');
+      }
+    } catch {
+      status.textContent  = '❌ Something went wrong. Please try again or email me directly.';
+      status.className    = 'text-sm text-center mt-1 text-red-500 font-medium';
+      status.classList.remove('hidden');
+      btn.disabled        = false;
+      btn.innerHTML       = '<i class="fas fa-paper-plane text-sm"></i> Send Message';
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
