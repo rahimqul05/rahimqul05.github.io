@@ -3,34 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Preloader Animation */
+        .preloader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+<body class="bg-gray-100">
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <header class="bg-indigo-600 text-white p-4">
+        <h1 class="text-3xl font-bold text-center">My Portfolio</h1>
     </header>
-    <section id="about">
-        <h2>About Me</h2>
-        <p>This section contains information about myself and my professional journey.</p>
+
+    <section id="hero" class="bg-gray-200 p-10 text-center">
+        <h2 class="text-4xl font-bold mb-4 typing-effect">Welcome to My Portfolio</h2>
+        <p class="mb-8">I am a passionate web developer.</p>
+        <a href="#contact" class="bg-indigo-600 text-white py-2 px-4 rounded">Contact Me</a>
     </section>
-    <section id="projects">
-        <h2>My Projects</h2>
-        <p>Describe your projects here.</p>
+
+    <section id="about" class="p-10">
+        <h2 class="text-3xl font-bold mb-4">About Me</h2>
+        <p class="mb-8">I have experience in full stack development and design.</p>
     </section>
-    <section id="contact">
-        <h2>Contact Me</h2>
-        <p>You can reach me via email at [your-email@example.com].</p>
+
+    <section id="contact" class="p-10 bg-gray-200">
+        <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
+        <form action="https://formspree.io/f/your-form-id" method="POST">
+            <input type="text" name="name" placeholder="Your Name" class="border p-2 mb-4 w-full" required>
+            <input type="email" name="email" placeholder="Your Email" class="border p-2 mb-4 w-full" required>
+            <textarea name="message" placeholder="Your Message" class="border p-2 mb-4 w-full" required></textarea>
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded">Send Message</button>
+        </form>
     </section>
-    <footer>
-        <p>© 2026 rahimqul05</p>
+
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>&copy; 2026 My Portfolio</p>
     </footer>
+
+    <script>
+        // Preloader Animation
+        window.onload = function() {
+            document.getElementById('preloader').style.display = 'none';
+        };
+
+        // Typing Effect
+        const typedText = "I'm a Developer!";
+        let index = 0;
+        const typingEffect = () => {
+            if (index < typedText.length) {
+                document.querySelector('.typing-effect').textContent += typedText.charAt(index);
+                index++;
+                setTimeout(typingEffect, 100);
+            }
+        };
+        typingEffect();
+
+        // Scroll Reveal Animations
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach((element) => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) {
+                    element.classList.add('animate__animated', 'animate__fadeIn');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+    </script>
 </body>
 </html>
